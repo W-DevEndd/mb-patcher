@@ -2,10 +2,10 @@ import zipfile, shutil
 from pathlib import Path
 
 def check(apk_p: Path):
-    if not zipfile.is_zipfile(Path): raise ValueError("The files is not zip.")
+    if not zipfile.is_zipfile(apk_p): raise ValueError("The files is not zip.")
 
 def extract(apk_p: Path, member: str, dest_dir: Path):
-    check()
+    check(apk_p)
     with zipfile.ZipFile(apk_p) as apk:
         with apk.open(member, "r") as src:
             dest_dir.mkdir(parents=True, exist_ok=True)
@@ -13,16 +13,17 @@ def extract(apk_p: Path, member: str, dest_dir: Path):
                 shutil.copyfileobj(src, dst)
 
 def add(apk_p: Path, file: Path, to_member: str):
-    check()
+    check(apk_p)
     with zipfile.ZipFile(apk_p, "w") as apk:
         apk.write(file, to_member)
 
+def sign(apk_p: Path):
+    check(apk_p)
 
+    if not shutil.which("apksigner"):
+        raise RuntimeError("\n".join([
+            "apksigner is not installed in system or not executable.",
+            "Open https://developer.android.com/studio or use package manager to install",
+        ]))
 
-
-
-        # if not shutil.which("apksigner"):
-        # raise RuntimeError("\n".join([
-        #     "apksigner is not installed in system or not executable.",
-        #     "Open https://developer.android.com/studio or use package manager to install",
-        # ]))
+    # ...
