@@ -16,3 +16,13 @@ def add(apk_p: Path, file: Path, to_member: str):
     check()
     with zipfile.ZipFile(apk_p, "w") as apk:
         apk.write(file, to_member)
+
+
+
+
+
+        # if not shutil.which("apksigner"):
+        # raise RuntimeError("\n".join([
+        #     "apksigner is not installed in system or not executable.",
+        #     "Open https://developer.android.com/studio or use package manager to install",
+        # ]))
