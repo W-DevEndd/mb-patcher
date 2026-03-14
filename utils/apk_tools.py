@@ -14,7 +14,7 @@ def extract(apk_p: Path, member: str, dest_dir: Path):
 
 def add(apk_p: Path, file: Path, to_member: str):
     check(apk_p)
-    with zipfile.ZipFile(apk_p, "w") as apk:
+    with zipfile.ZipFile(apk_p, "a") as apk:
         apk.write(file, to_member)
 
 def sign(apk_p: Path):
